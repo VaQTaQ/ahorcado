@@ -1,0 +1,154 @@
+#include<stdio.h>
+#include<conio.h>
+#include<conio.c>
+#include<ctype.h>
+#include<stdlib.h>
+
+#define vocaltryes 0.5
+#define consonantryes 0.6
+#define AEIOCS 10
+#define UDLPR 15
+#define BTFMN 20
+#define GHJQV 25
+#define KWXYZÑ 30
+#define parts 12
+#define x 1
+#define y 1
+#define signintinv 168
+#define exclamsign 173
+#define eacent 130
+#define aacent 160
+#define iacent 161
+#define oacent 162
+#define uacent 163
+#define enne 164
+#define barra 238
+#define alfabeto 26
+
+int main()
+{
+    char *frase;
+    char *backup;
+    int i, j = 0;
+    float tryes = 0;
+    float nextstep = 0;
+    int money = 0;
+    char letra;
+    int racha = 0;
+    char fails[alfabeto];
+    system("cls");
+    gotoxy(x, y);
+    printf("escriba una palabra o frase de al menos 2 caracteres, reemplaze los espacios por barra baja(_) (caracteres especiales y n%cmeros no son analizados)\n", uacent);
+    scanf("%ms", &frase);
+    int espacios = strlen(frase);
+    backup = (char *)malloc((espacios) * sizeof(char));
+    strcpy(backup, frase);
+
+    for (i = 0; i < espacios; i++)
+    {
+        if (tolower(frase[i]) == 'a' || tolower(frase[i]) == 'e' || tolower(frase[i]) == 'i' || tolower(frase[i]) == 'o' || tolower(frase[i]) == 'u')
+        {
+            tryes += vocaltryes;
+        }
+
+        else if (((int)'a' < ((int)(tolower(frase[i]))) && ((int)(tolower(frase[i]))) <= (int)'z') || tolower(frase[i]) == (char) enne)
+        {
+            tryes += consonantryes;
+        }
+        // printf("%c", frase[i]);
+    }
+
+    nextstep = (parts / tryes);
+    /*
+    printf("\n");
+    printf("%.1f\n", tryes);
+    printf("%f\n", nextstep);
+    printf("%d\n", espacios);
+    printf("%lli\n", strlen(frase));
+    printf("%s\n", frase);
+    printf("%s\n", backup);
+    */
+    
+    system("cls");
+
+    
+    for (i = 0; i < espacios; i++)
+    {
+        if (((int)'a' <= ((int)(tolower(frase[i]))) && ((int)(tolower(frase[i]))) <= (int)'z') || tolower(frase[i]) == (char) enne)
+        {
+            gotoxy(x+i,KWXYZÑ+y);
+            printf("%c", barra);
+        }
+    }
+    
+    do
+    {
+        gotoxy(x,y);
+        printf("ingrese una letra ");
+        scanf("%c", &letra);
+        gotoxy(x,y+y);
+        //printf
+        for (i = 0; i < espacios; i++)
+        {
+            
+            for (j = 0; j < espacios; j++)
+            {
+                if (letra == frase[j] && letra != ' ')
+                {
+                    gotoxy(x+j,KWXYZÑ);
+                    printf("%c", frase[j]);
+                    
+                    if (tolower(letra) == 'a' || tolower(letra) == 'e' || tolower(letra) == 'i' || tolower(letra) == 'o' || tolower(letra) == 'c' || tolower(letra) == 's')
+                    {
+                        money+=AEIOCS;
+                        if (racha > 0)
+                        {
+                            money+=AEIOCS;
+                        }
+                    }
+                    else if (tolower(letra) == 'u' || tolower(letra) == 'd' || tolower(letra) == 'l' || tolower(letra) == 'p' || tolower(letra) == 'r')
+                    {
+                        money+=UDLPR;
+                        if (racha > 0)
+                        {
+                            money+=UDLPR;
+                        }
+                    }
+                    else if (tolower(letra) == 'b' || tolower(letra) == 't' || tolower(letra) == 'f' || tolower(letra) == 'm' || tolower(letra) == 'n')
+                    {
+                        money+=BTFMN;
+                        if (racha > 0)
+                        {
+                            money+=BTFMN;
+                        }
+                    }
+                    else if (tolower(letra) == 'g' || tolower(letra) == 'h' || tolower(letra) == 'j' || tolower(letra) == 'q' || tolower(letra) == 'v')
+                    {
+                        money+=GHJQV;
+                        if (racha > 0)
+                        {
+                            money+=GHJQV;
+                        }
+                    }
+                    if (tolower(letra) == 'k' || tolower(letra) == 'w' || tolower(letra) == 'x' || tolower(letra) == 'y' || tolower(letra) == 'z' || tolower(letra) == (char) enne)
+                    {
+                        money+=KWXYZÑ;
+                        if (racha > 0)
+                        {
+                            money+=KWXYZÑ;
+                        }
+                    }
+                    racha++;
+                }
+                
+            }
+            
+        }
+        
+    } while (i < tryes);
+    
+
+    free(frase);
+    free(backup);
+    return 0;
+}
