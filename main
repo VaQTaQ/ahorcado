@@ -4,8 +4,8 @@
 #include<ctype.h>
 #include<stdlib.h>
 
-#define vocaltryes 0.5
-#define consonantryes 0.6
+#define vocaltotaltryes 0.5
+#define consonantotaltryes 0.6
 #define AEIOCS 10
 #define UDLPR 15
 #define BTFMN 20
@@ -30,12 +30,15 @@ int main()
     char *frase;
     char *backup;
     int i, j = 0;
-    float tryes = 0;
+    float totaltryes = 0;
     float nextstep = 0;
+    float tryes = parts;
     int money = 0;
     char letra;
     int racha = 0;
     char fails[alfabeto];
+    int acierto = 0;
+    int aciertototal = 0;
     system("cls");
     gotoxy(x, y);
     printf("escriba una palabra o frase de al menos 2 caracteres, reemplaze los espacios por barra baja(_) (caracteres especiales y n%cmeros no son analizados)\n", uacent);
@@ -48,20 +51,20 @@ int main()
     {
         if (tolower(frase[i]) == 'a' || tolower(frase[i]) == 'e' || tolower(frase[i]) == 'i' || tolower(frase[i]) == 'o' || tolower(frase[i]) == 'u')
         {
-            tryes += vocaltryes;
+            totaltryes += vocaltotaltryes;
         }
 
         else if (((int)'a' < ((int)(tolower(frase[i]))) && ((int)(tolower(frase[i]))) <= (int)'z') || tolower(frase[i]) == (char) enne)
         {
-            tryes += consonantryes;
+            totaltryes += consonantotaltryes;
         }
         // printf("%c", frase[i]);
     }
 
-    nextstep = (parts / tryes);
+    nextstep = (parts / totaltryes);
     /*
     printf("\n");
-    printf("%.1f\n", tryes);
+    printf("%.1f\n", totaltryes);
     printf("%f\n", nextstep);
     printf("%d\n", espacios);
     printf("%lli\n", strlen(frase));
@@ -88,6 +91,7 @@ int main()
         scanf("%c", &letra);
         gotoxy(x,y+y);
         //printf
+        acierto = 0;
         for (i = 0; i < espacios; i++)
         {
             
@@ -97,55 +101,92 @@ int main()
                 {
                     gotoxy(x+j,KWXYZÑ);
                     printf("%c", frase[j]);
-                    
-                    if (tolower(letra) == 'a' || tolower(letra) == 'e' || tolower(letra) == 'i' || tolower(letra) == 'o' || tolower(letra) == 'c' || tolower(letra) == 's')
-                    {
-                        money+=AEIOCS;
-                        if (racha > 0)
-                        {
-                            money+=AEIOCS;
-                        }
-                    }
-                    else if (tolower(letra) == 'u' || tolower(letra) == 'd' || tolower(letra) == 'l' || tolower(letra) == 'p' || tolower(letra) == 'r')
-                    {
-                        money+=UDLPR;
-                        if (racha > 0)
-                        {
-                            money+=UDLPR;
-                        }
-                    }
-                    else if (tolower(letra) == 'b' || tolower(letra) == 't' || tolower(letra) == 'f' || tolower(letra) == 'm' || tolower(letra) == 'n')
-                    {
-                        money+=BTFMN;
-                        if (racha > 0)
-                        {
-                            money+=BTFMN;
-                        }
-                    }
-                    else if (tolower(letra) == 'g' || tolower(letra) == 'h' || tolower(letra) == 'j' || tolower(letra) == 'q' || tolower(letra) == 'v')
-                    {
-                        money+=GHJQV;
-                        if (racha > 0)
-                        {
-                            money+=GHJQV;
-                        }
-                    }
-                    if (tolower(letra) == 'k' || tolower(letra) == 'w' || tolower(letra) == 'x' || tolower(letra) == 'y' || tolower(letra) == 'z' || tolower(letra) == (char) enne)
-                    {
-                        money+=KWXYZÑ;
-                        if (racha > 0)
-                        {
-                            money+=KWXYZÑ;
-                        }
-                    }
-                    racha++;
+                    acierto = 1;
                 }
                 
             }
             
         }
         
-    } while (i < tryes);
+        if (acierto == 0)
+        {
+            tryes-=nextstep;
+        }
+        
+
+        else if (acierto == 1)
+        {
+            if (tolower(letra) == 'a' || tolower(letra) == 'e' || tolower(letra) == 'i' || tolower(letra) == 'o' || tolower(letra) == 'c' || tolower(letra) == 's')
+        {
+            money += AEIOCS;
+            if (racha > 0)
+            {
+                money += AEIOCS;
+                money += racha;
+                acierto = 1;
+                aciertototal++;
+            }
+        }
+        else if (tolower(letra) == 'u' || tolower(letra) == 'd' || tolower(letra) == 'l' || tolower(letra) == 'p' || tolower(letra) == 'r')
+        {
+            money += UDLPR;
+            if (racha > 0)
+            {
+                money += UDLPR;
+                money += racha;
+                acierto = 1;
+                aciertototal++;
+            }
+        }
+        else if (tolower(letra) == 'b' || tolower(letra) == 't' || tolower(letra) == 'f' || tolower(letra) == 'm' || tolower(letra) == 'n')
+        {
+            money += BTFMN;
+            if (racha > 0)
+            {
+                money += BTFMN;
+                money += racha;
+                acierto = 1;
+                aciertototal++;
+            }
+        }
+        else if (tolower(letra) == 'g' || tolower(letra) == 'h' || tolower(letra) == 'j' || tolower(letra) == 'q' || tolower(letra) == 'v')
+        {
+            money += GHJQV;
+            if (racha > 0)
+            {
+                money += GHJQV;
+                money += racha;
+                acierto = 1;
+                aciertototal++;
+            }
+        }
+        if (tolower(letra) == 'k' || tolower(letra) == 'w' || tolower(letra) == 'x' || tolower(letra) == 'y' || tolower(letra) == 'z' || tolower(letra) == (char)enne)
+        {
+            money += KWXYZÑ;
+            if (racha > 0)
+            {
+                money += KWXYZÑ;
+                money += racha;
+                acierto = 1;
+                aciertototal++;
+            }
+        }
+        racha++;
+        }
+        
+
+    } while (tryes > 0 || aciertototal < espacios);
+
+    if (tryes == 0)
+    {
+        gotoxy(AEIOCS, AEIOCS);
+        printf("perdiste");
+    }
+    
+    if (aciertototal == espacios)
+    {
+        printf("ganaste");
+    }
     
 
     free(frase);
