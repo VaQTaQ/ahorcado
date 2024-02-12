@@ -42,7 +42,12 @@ int main()
     system("cls");
     gotoxy(x, y);
     printf("escriba una palabra o frase de al menos 2 caracteres, reemplaze los espacios por barra baja(_) (caracteres especiales y n%cmeros no son analizados)\n", uacent);
-    scanf("%ms", &frase);
+    do
+    {
+        scanf("%ms", &frase);
+    } while (strlen(frase) <2);
+    
+    
     int espacios = strlen(frase);
     backup = (char *)malloc((espacios) * sizeof(char));
     strcpy(backup, frase);
@@ -79,7 +84,7 @@ int main()
     {
         if (((int)'a' <= ((int)(tolower(frase[i]))) && ((int)(tolower(frase[i]))) <= (int)'z') || tolower(frase[i]) == (char) enne)
         {
-            gotoxy(x+i,KWXYZÑ+y);
+            gotoxy(x+i,UDLPR+y);
             printf("%c", barra);
         }
     }
@@ -88,8 +93,8 @@ int main()
     {
         gotoxy(x,y);
         printf("ingrese una letra ");
-        scanf("%c", &letra);
-        gotoxy(x,y+y);
+        letra = getchar();
+        //gotoxy(x,y+y);
         //printf
         acierto = 0;
         for (i = 0; i < espacios; i++)
@@ -99,7 +104,7 @@ int main()
             {
                 if (letra == frase[j] && letra != ' ')
                 {
-                    gotoxy(x+j,KWXYZÑ);
+                    gotoxy(x+j,UDLPR+y);
                     printf("%c", frase[j]);
                     acierto = 1;
                 }
@@ -111,6 +116,11 @@ int main()
         if (acierto == 0)
         {
             tryes-=nextstep;
+            if (tryes==0)
+            {
+                break;
+            }
+            
         }
         
 
@@ -175,7 +185,7 @@ int main()
         }
         
 
-    } while (tryes > 0 || aciertototal < espacios);
+    } while (tryes > 0 || aciertototal < espacios-1);
 
     if (tryes == 0)
     {
@@ -183,7 +193,7 @@ int main()
         printf("perdiste");
     }
     
-    if (aciertototal == espacios)
+    if (aciertototal == espacios-1)
     {
         printf("ganaste");
     }
